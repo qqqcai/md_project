@@ -1,4 +1,3 @@
-
 # 这是我们开发阶段的配置文件
 """
 Django settings for zmeiduo project.
@@ -12,12 +11,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-import os
+import os, sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # 提供用来进行拼接的一个路径   abspath=绝对路径     os.path.dirname=上一级
 # os.path.abspath(__file__) = dev.py的绝对路径
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+sys.path.insert(0, os.path.join(BASE_DIR, "apps"))
 
 
 # Quick-start development settings - unsuitable for production
@@ -32,7 +33,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 注册子应用
+    # 'zmeiduo.apps.users.apps.UsersConfig',
+    # 'zmeiduo.apps.users',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -73,14 +77,12 @@ ROOT_URLCONF = 'zmeiduo.urls'
 # ]
 
 
-
-
 # jinja2和自带 两个一起
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.jinja2.Jinja2',  # 修改1
         # 配置模版文件路径 join来配置，专业拼接路径，可以自动检查斜杠问题
-        'DIRS': [os.path.join(BASE_DIR, 'zmeiduo/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             # 补充Jinja2模板引擎环境
@@ -109,12 +111,8 @@ TEMPLATES = [
     },
 ]
 
-
-
-
 # 项目上线后入口文件
 WSGI_APPLICATION = 'zmeiduo.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -135,7 +133,6 @@ DATABASES = {
     },
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -154,7 +151,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 # LANGUAGE_CODE = 'en-us'
@@ -170,7 +166,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
@@ -178,23 +173,21 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # 项目静态文件路径
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "zmeiduo/static_file")]  # 存放查找静态文件的目录 接收的是list
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static_file")]  # 存放查找静态文件的目录 接收的是list
 
 # 上传文件的路径
-MEDIA_ROOT = os.path.join(BASE_DIR, "zmeiduo/static_file/media")
-
-
+MEDIA_ROOT = os.path.join(BASE_DIR, "static_file/media")
 
 # 下面是设置redis数据库，将session数据储存到redis数据库的配置
 CACHES = {
-    "default": { # 默认
+    "default": {  # 默认
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
-    "session": { # session
+    "session": {  # session
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {
@@ -207,10 +200,6 @@ CACHES = {
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 # 读取配置,默认是缓存到本机内存条，要改了才变
 SESSION_CACHE_ALIAS = "session"
-
-
-
-
 
 # 日志输出器配置
 LOGGING = {
@@ -239,7 +228,7 @@ LOGGING = {
         'file': {  # 向文件中输出日志
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/meiduo.log'),  # 日志文件的位置
+            'filename': os.path.join(os.path.dirname(BASE_DIR), 'logs/meiduo.log'),  # 日志文件的位置
             'maxBytes': 300 * 1024 * 1024,
             'backupCount': 10,
             'formatter': 'verbose'
