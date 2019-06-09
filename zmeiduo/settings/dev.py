@@ -1,3 +1,5 @@
+
+# 这是我们开发阶段的配置文件
 """
 Django settings for zmeiduo project.
 
@@ -13,7 +15,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# 提供用来进行拼接的一个路径   abspath=绝对路径     os.path.dirname=上一级
+# os.path.abspath(__file__) = dev.py的绝对路径
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
@@ -23,6 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'qo0$w^fv=#_#n#ga@+!)p6@jb8wjm7-s60v-)7&trvkk$n1tqd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# 上线调试模式改False, DEBUG模式有些地方会显示两次print
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -51,44 +56,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'zmeiduo.urls'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
-
-
-
-
-# # jinja2和自带 两个一起
 # TEMPLATES = [
 #     {
-#         'BACKEND': 'django.template.backends.jinja2.Jinja2',  # 修改1
-#         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-#         'APP_DIRS': True,
-#         'OPTIONS': {
-#             'environment': 'jinja2_env.environment',  # 修改文件路径
-#             'context_processors': [
-#                 'django.template.context_processors.debug',
-#                 'django.template.context_processors.request',
-#                 'django.contrib.auth.context_processors.auth',
-#                 'django.contrib.messages.context_processors.messages',
-#             ],
-#         },
-#     },
-#     {
 #         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-#         'DIRS': [os.path.join(BASE_DIR, 'templates')],  # 此处模版改路径
+#         'DIRS': [],
 #         'APP_DIRS': True,
 #         'OPTIONS': {
 #             'context_processors': [
@@ -104,6 +75,43 @@ TEMPLATES = [
 
 
 
+# jinja2和自带 两个一起
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',  # 修改1
+        # 配置模版文件路径 join来配置，专业拼接路径，可以自动检查斜杠问题
+        'DIRS': [os.path.join(BASE_DIR, 'zmeiduo/templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            # 补充Jinja2模板引擎环境
+            'environment': 'meiduo_mall.utils.jinja2_env.jinja2_environment',
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+
+        },
+    },
+    # {
+    #     'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    #     'DIRS': [os.path.join(BASE_DIR, 'templates')],  # 此处模版改路径
+    #     'APP_DIRS': True,
+    #     'OPTIONS': {
+    #         'context_processors': [
+    #             'django.template.context_processors.debug',
+    #             'django.template.context_processors.request',
+    #             'django.contrib.auth.context_processors.auth',
+    #             'django.contrib.messages.context_processors.messages',
+    #         ],
+    #     },
+    # },
+]
+
+
+
+
 # 项目上线后入口文件
 WSGI_APPLICATION = 'zmeiduo.wsgi.application'
 
@@ -111,12 +119,12 @@ WSGI_APPLICATION = 'zmeiduo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 # DATABASES = {
 #     'default': {
