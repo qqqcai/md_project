@@ -11,15 +11,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-import os, sys
+import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # 提供用来进行拼接的一个路径   abspath=绝对路径     os.path.dirname=上一级
 # os.path.abspath(__file__) = dev.py的绝对路径
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# sys.path代表的查看导包路径, 把apps文件夹添加到第1位
 sys.path.insert(0, os.path.join(BASE_DIR, "apps"))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -42,10 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 注册子应用
+    # 注册子应用，导包后可以简写
     # 'zmeiduo.apps.users.apps.UsersConfig',
-    # 'zmeiduo.apps.users',
     'users',
+    'contents',
 ]
 
 MIDDLEWARE = [
@@ -242,3 +245,6 @@ LOGGING = {
         },
     }
 }
+
+# 指定本项目用户模型类 格式 = '应用名.模型类名'
+AUTH_USER_MODEL = 'users.User'
