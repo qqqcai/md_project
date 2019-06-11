@@ -21,8 +21,10 @@ import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
 # sys.path代表的查看导包路径, 把apps文件夹添加到第1位
 sys.path.insert(0, os.path.join(BASE_DIR, "apps"))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -49,6 +51,7 @@ INSTALLED_APPS = [
     # 'zmeiduo.apps.users.apps.UsersConfig',
     'users',
     'contents',
+    'verifications',
 ]
 
 MIDDLEWARE = [
@@ -197,6 +200,13 @@ CACHES = {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
+    "verify_code": { # 验证码
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": "redis://127.0.0.1:6379/2",
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            }
+        },
 }
 
 # session配置
