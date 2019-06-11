@@ -36,7 +36,7 @@ SECRET_KEY = 'qo0$w^fv=#_#n#ga@+!)p6@jb8wjm7-s60v-)7&trvkk$n1tqd'
 # 上线调试模式改False, DEBUG模式有些地方会显示两次print
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -48,10 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 注册子应用，导包后可以简写
-    # 'zmeiduo.apps.users.apps.UsersConfig',
-    'users',
-    'contents',
-    'verifications',
+    # 其实可以只写 users, 但其实尽量要用下面这样注册
+    'users.apps.UsersConfig',
+    'contents.apps.ContentsConfig',
+    'verifications.apps.VerificationsConfig',
 ]
 
 MIDDLEWARE = [
@@ -256,5 +256,5 @@ LOGGING = {
     }
 }
 
-# 指定本项目用户模型类 格式 = '应用名.模型类名'
+# 指定本项目用户模型类 格式 = '应用名.模型类名'，不能用详细路径
 AUTH_USER_MODEL = 'users.User'
