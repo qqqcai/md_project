@@ -93,5 +93,17 @@
     <p>电话：010-****888 京ICP备*******8号</p>
 </div>
 <script type="text/javascript" src="{{ static("js/register.js") }}"></script>
+{% if username %}
+    <script>
+        vm.username = "{{ username|default('') }}";
+        vm.password = "{{ password|default('') }}";
+        vm.password2 = "{{ password2|default('') }}";
+        vm.mobile = "{{ mobile|default('') }}";
+        check_username();
+        check_pwd();
+        check_cpwd();
+    </script>
+{% endif %}
+
 </body>
 </html>
