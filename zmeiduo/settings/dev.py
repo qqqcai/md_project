@@ -50,8 +50,11 @@ INSTALLED_APPS = [
     # 注册子应用，导包后可以简写
     # 其实可以只写 users, 但其实尽量要用下面这样注册
     'users.apps.UsersConfig',
+    # 只有当这个应用使用了模型,需要迁移时才必须注册
     'contents.apps.ContentsConfig',
     'verifications.apps.VerificationsConfig',
+    'oauth.apps.OauthConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -126,7 +129,7 @@ WSGI_APPLICATION = 'zmeiduo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        # 'HOST': '192.168.126.128',  # 学校 数据库主机
+        # 'HOST': '192.168.126.128',  # 虚拟机 数据库主机
         # 'HOST': '192.168.83.129',  # E3V2 数据库ip
         'HOST': '127.0.0.1',  # 学校windows 数据库ip
         'PORT': 3306,  # 数据库端口
@@ -162,6 +165,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # LANGUAGE_CODE = 'en-us'
 # TIME_ZONE = 'UTC'
 
+# zh-hans 和 zh-Hans 有些微区别，尽量小写
 LANGUAGE_CODE = 'zh-hans'
 
 TIME_ZONE = 'Asia/Shanghai'
@@ -170,7 +174,9 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# 为True时，不管前面TIME_ZONE怎么设置都是自动选UTC
+# 改成False后数据库时间会准备，但会导致locktime取时间错误，要用now()
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
@@ -258,3 +264,22 @@ LOGGING = {
 
 # 指定本项目用户模型类 格式 = '应用名.模型类名'，不能用详细路径
 AUTH_USER_MODEL = 'users.User'
+
+# 重写指定Django登录认证后端
+AUTHENTICATION_BACKENDS = ['users.utils.UsernameMobileAuthBackend']
+
+# 指定登录界面的路由
+LOGIN_URL = '/login/'
+
+# QQ登录配置项
+QQ_CLIENT_ID = '101518219'
+QQ_CLIENT_SECRET = '418d84ebdc7241efb79536886ae95224'
+QQ_REDIRECT_URI = 'http://www.meiduo.site:8000/oauth_callback'
+
+
+
+# QQ_REDIRECT_URI = 'http://127.0.0.1/oauth_callback'
+# QQ_REDIRECT_URI = 'http://qqqcai.cf:8625/oauth_callback'
+
+
+

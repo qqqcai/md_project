@@ -15,11 +15,21 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.views.generic import RedirectView  #u rls里直接重定向
+
+
+from contents import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include("users.urls", namespace="users")),
     url(r'^', include("contents.urls", namespace="contents")),
     url(r'^', include('verifications.urls')),
+    url(r'^', include('oauth.urls')),
+
+    # 注意以下3种路由方式
+    url(r'^index.html$', views.IndexView.as_view()),
+    # url(r'^index.html$', RedirectView.as_view(url="/")),
+    # url(r'^index.html$', RedirectView.as_view(pattern_name="contents:index")),
 
 ]

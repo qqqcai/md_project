@@ -18,6 +18,11 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    # 注意必须 ^$ 都要加
-    url(r'^$', views.IndexView.as_view(), name="index"),
+    # 获取QQ登录界面url
+    url(r'^qq/authorization/$', views.OAuthURLView.as_view()),
+    # 客户操作QQ登录后重定向页面
+    url(r'^oauth_callback', views.OAuthUserView.as_view()),
+
 ]
+
+

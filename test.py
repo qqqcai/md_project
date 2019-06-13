@@ -6,7 +6,10 @@
 
 
 
-a = b""
 
-b = a.decode()
-print(b)
+a = ""
+b = 2
+print(a and b)
+
+aaa =  a and b
+print(aaa)
