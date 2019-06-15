@@ -128,13 +128,11 @@ WSGI_APPLICATION = 'zmeiduo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        # 'HOST': '192.168.126.128',  # 虚拟机 数据库主机
-        # 'HOST': '192.168.83.129',  # E3V2 数据库ip
-        'HOST': '127.0.0.1',  # 学校windows 数据库ip
+        'HOST': 'qqqcai.mysql.pythonanywhere-services.com',  # 学校windows 数据库ip
         'PORT': 3306,  # 数据库端口
-        'USER': 'sam',  # 数据库用户名
-        'PASSWORD': '123',  # 数据库用户密码
-        'NAME': 'meiduo',  # 数据库名字
+        'USER': 'qqqcai',  # 数据库用户名
+        'PASSWORD': 'csj6664903',  # 数据库用户密码
+        'NAME': 'qqqcai$meiduo',  # 数据库名字
         # 'OPTIONS': {
         #      'autocommit': True,  # 是否自动提交？
         #  },
