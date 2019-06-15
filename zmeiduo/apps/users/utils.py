@@ -19,7 +19,7 @@ def get_user_by_account(account):
 
 class UsernameMobileAuthBackend(ModelBackend):
 
-    def authenticate(self, request, username=None, password=None, **kwargs):
+    def authenticate(self, request=None, username=None, password=None, **kwargs):
         """
         重写认证方法，实现多账号登录
         :param request: 请求对象
@@ -29,7 +29,7 @@ class UsernameMobileAuthBackend(ModelBackend):
         :return: user
         """
         user = get_user_by_account(username)
-        print(user)
+        print(f'使用重写的认证方法 user={user} request={request}')
         if user and user.check_password(password):
             return user
 

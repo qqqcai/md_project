@@ -22,9 +22,11 @@ urlpatterns = [
     url(r'^register/$', views.RegisterView.as_view(), name="register"),
     url(r'^login/$', views.LoginView.as_view(), name="login"),
     url(r'^logout/$', views.LogoutView.as_view(), name="logout"),
+    # 用户中心
     url(r'^info/$', views.UserInfoView.as_view(), name="info"),
     url(r'^usernames/(?P<username>[a-zA-Z0-9_]{5,20})/count/$', views.UsernameCountView.as_view()),
     url(r'^mobiles/(?P<mobile>1[3-9]\d{9})/count/$', views.MobileCountView.as_view()),
+    url(r'^emails/$', views.EmailView.as_view()),
 ]
 
 
@@ -32,9 +34,10 @@ urlpatterns = [
 
 # 方法一：
 # from django.contrib.auth.decorators import login_required  # login_required()
-# url(r'^info/$', login_required(views.UserInfoView.as_view()), name="info"),
+# 在子路由中url(r'^info/$', login_required(views.UserInfoView.as_view()), name="info"),
+# 如果不在子路由中装饰，可以在视图中用 @method_decorator(login_required)
 
 # 方法二：
 # views.py中导入  from django.contrib.auth.mixins import LoginRequiredMixin
-# 在class中加入父类继承   class xxx(LoginRequiredMixin, View):
+# 在视图class中加入父类继承   class xxx(LoginRequiredMixin, View):
 

@@ -47,13 +47,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 注册子应用，导包后可以简写
     # 其实可以只写 users, 但其实尽量要用下面这样注册
-    'users.apps.UsersConfig',
+    'users.apps.UsersConfig',   # 用户模块
     # 只有当这个应用使用了模型,需要迁移时才必须注册
-    'contents.apps.ContentsConfig',
-    'verifications.apps.VerificationsConfig',
-    'oauth.apps.OauthConfig',
+    'contents.apps.ContentsConfig', # 主页模块
+    'verifications.apps.VerificationsConfig',   # 短信，图形验证码
+    'oauth.apps.OauthConfig',   # QQ认证模块
 
 ]
 
@@ -269,7 +268,7 @@ AUTH_USER_MODEL = 'users.User'
 AUTHENTICATION_BACKENDS = ['users.utils.UsernameMobileAuthBackend']
 
 # 指定登录界面的路由
-LOGIN_URL = '/login/'
+LOGIN_URL = '/login/' # 改写global_settings 里的
 
 # QQ登录配置项
 QQ_CLIENT_ID = '101518219'
@@ -282,4 +281,10 @@ QQ_REDIRECT_URI = 'http://www.meiduo.site:8000/oauth_callback'
 # QQ_REDIRECT_URI = 'http://qqqcai.cf:8625/oauth_callback'
 
 
-
+# 邮箱设置
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # 指定邮件后端
+EMAIL_HOST = 'smtp.126.com'  # 发邮件主机
+EMAIL_PORT = 25  # 发邮件端口
+EMAIL_HOST_USER = 'sumcaii@126.com'  # 授权的邮箱
+EMAIL_HOST_PASSWORD = 'csj6669806'  # 邮箱授权时获得的密码，非注册登录密码
+EMAIL_FROM = '好大条粉肠<sumcaii@126.com>'  # 发件人抬头
